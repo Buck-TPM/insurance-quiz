@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Aren’t Prospects Calling Your Agency?</title>
+
+<style>
+body {
+  font-family: Georgia, serif;
+  background: #ffffff;
+  color: #000;
+  padding: 20px;
+}
+.container {
+  max-width: 700px;
+  margin: auto;
+}
+h1 {
+  color: #060644;
+  line-height: 1.2;
+}
+.subtitle {
+  margin-bottom: 20px;
+}
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #eee;
+  margin-bottom: 20px;
+  border-radius: 20px;
+}
+.progress {
+  height: 10px;
+  background: #060644;
+  width: 10%;
+  border-radius: 20px;
+}
+.answer {
+  border: 1px solid #ccc;
+  padding: 14px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.answer:hover {
+  border-color: #060644;
+}
+.btn {
+  background: #ffec4e;
+  padding: 16px;
+  width: 100%;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 999px;
+}
+.hidden {
+  display: none;
+}
+.result-box {
+  margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Why Aren’t Prospects Calling Your Agency?</h1>
+<p class="subtitle">Take this 2-minute test to find the hidden trust leak costing you quotes.</p>
+
+<div class="progress-bar">
+  <div id="progress" class="progress"></div>
+</div>
+
+<div id="quiz"></div>
+
+<div id="form" class="hidden">
+  <h3>Enter your email to see your result</h3>
+
+  <!-- 🔥 PASTE YOUR MAILERLITE FORM HERE -->
+
+  <button class="btn" onclick="showResult()">Show My Result</button>
+</div>
+
+<div id="result" class="hidden result-box"></div>
+
+</div>
+
+<script>
+
+const questions = [
+
+{
+q: "When a prospect lands on your profile, what do they understand in the first 5 seconds?",
+a: [
+"Exactly who I help, what I help them get, and what to do next",
+"They can tell I sell insurance, but not much beyond that",
+"It looks fine, but it is not clear who it is really for"
+]
+},
+
+{
+q: "Which best describes how your agency presents its services online?",
+a: [
+"We clearly lead with one main type of client or offer",
+"We mention several services, but there is some direction",
+"We list many options and expect people to figure it out"
+]
+},
+
+{
+q: "If someone is ready to take the next step, what happens?",
+a: [
+"There is one clear next step and it is easy on mobile",
+"There are a few options, but not very streamlined",
+"There are multiple buttons, links, or unclear next steps"
+]
+},
+
+{
+q: "What do your pinned posts or top profile sections actually do?",
+a: [
+"They explain who we help, prove we can help, and show what to do next",
+"They introduce us, but do not fully prove or direct",
+"They are outdated, random, or mostly informational"
+]
+},
+
+{
+q: "How easy is it for a prospect to see proof that you are the right choice?",
+a: [
+"Very easy — reviews, wins, or stories are obvious",
+"Some proof exists, but it is not front and center",
+"Proof is weak, outdated, or hard to find"
+]
+},
+
+{
+q: "What does your overall online presence feel like?",
+a: [
+"Consistent, clear, and professional across platforms",
+"Mostly solid, but a little uneven",
+"Inconsistent, outdated, or disconnected"
+]
+},
+
+{
+q: "When a prospect reaches out, what happens next?",
+a: [
+"Fast response with a clear next step",
+"We respond, but it is not a defined process",
+"Follow-up is inconsistent or slow"
+]
+},
+
+{
+q: "What have you already tried to get more inbound leads?",
+a: [
+"Consistent content, reviews, and improving our profiles",
+"Posting occasionally or testing a few things",
+"Mostly referrals or random tactics"
+]
+},
+
+{
+q: "What is your biggest challenge right now when it comes to getting more quotes?",
+a: [
+"Getting consistent inbound leads",
+"Converting interest into calls and quotes",
+"Keeping clients while trying to grow"
+]
+},
+
+{
+q: "Be honest — why do you think prospects are not calling?",
+a: [
+"They do not clearly understand what we do or who we help",
+"They do not see enough proof or reason to trust us",
+"We rely too heavily on referrals"
+]
+}
+
+];
+
+let current = 0;
+let score = 0;
+
+function renderQuestion() {
+  const q = questions[current];
+
+  let html = `<h3>${current + 1}. ${q.q}</h3>`;
+
+  q.a.forEach((a, i) => {
+    let val = 2 - i;
+    html += `
+      <div class="answer">
+        <input type="radio" name="q" value="${val}"> ${a}
+      </div>
+    `;
+  });
+
+  html += `<button class="btn" onclick="next()">Next Question</button>`;
+
+  document.getElementById("quiz").innerHTML = html;
+
+  document.getElementById("progress").style.width =
+    ((current + 1) / questions.length) * 100 + "%";
+}
+
+function next() {
+  const selected = document.querySelector('input[name="q"]:checked');
+
+  if (!selected) {
+    alert("Please select an answer");
+    return;
+  }
+
+  score += parseInt(selected.value);
+  current++;
+
+  if (current < questions.length) {
+    renderQuestion();
+  } else {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("form").classList.remove("hidden");
+  }
+}
+
+function showResult() {
+
+  let title = "";
+  let summary = "";
+  let nextStep = "";
+
+  if (score <= 6) {
+    title = "The Unclear Agent";
+    summary = "Prospects are not calling because your message creates confusion.";
+    nextStep = "Clarify who you help, what you do, and what to do next.";
+  } else if (score <= 11) {
+    title = "The Overloaded Agent";
+    summary = "You are overwhelming prospects with too many options.";
+    nextStep = "Simplify your message and lead with one clear path.";
+  } else if (score <= 16) {
+    title = "The Unproven Agent";
+    summary = "Prospects do not see enough proof to trust you.";
+    nextStep = "Make reviews, proof, and credibility more visible.";
+  } else {
+    title = "The Leaky Agent";
+    summary = "You are losing prospects right before they convert.";
+    nextStep = "Tighten your CTA and make the next step obvious.";
+  }
+
+  document.getElementById("form").classList.add("hidden");
+
+  document.getElementById("result").innerHTML = `
+    <h2>${title}</h2>
+    <p>${summary}</p>
+    <p><strong>What needs to be done next:</strong> ${nextStep}</p>
+  `;
+
+  document.getElementById("result").classList.remove("hidden");
+}
+
+renderQuestion();
+
+</script>
+
+</body>
+</html>
